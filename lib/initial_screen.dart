@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
-import './login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './side_menu.dart';
 
-class InitialScreen extends StatelessWidget {
+class InitialScreen extends StatefulWidget {
   static const routeName = "./";
 
   const InitialScreen({super.key});
 
-  void _logout(BuildContext context) {
-    Navigator.of(context).popAndPushNamed(LoginScreen.routeName);
+  @override
+  State<InitialScreen> createState() => _InitialScreenState();
+}
+
+class _InitialScreenState extends State<InitialScreen> {
+  String? username;
+  String? password;
+  SharedPreferences? prefs;
+
+  @override
+  initState() {
+    super.initState();
+
+    _loadCredentials().then((result) => setState(() {}));
+  }
+
+  Future<void> _loadCredentials() async {
+    prefs = await SharedPreferences.getInstance();
+    username = prefs!.getString("username") ?? "";
+    password = prefs!.getString("password") ?? "";
   }
 
   @override
@@ -19,8 +37,8 @@ class InitialScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(
-              onPressed: () => _logout(context), child: const Text("Sair")),
+          Text('Username: $username'),
+          Text('Senha:    $password'),
         ],
       ),
     );

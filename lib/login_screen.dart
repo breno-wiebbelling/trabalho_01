@@ -33,20 +33,20 @@ class LoginScreen extends StatelessWidget {
   String? _passwordValidator(String? value) {
     if (value!.isEmpty) return "Adicione uma senha!";
 
-    if (!upperCaseValidation.hasMatch(value)) {
-      return "A senha deve possuir uma letra maiuscula.";
-    }
-    if (!lowerCaseValidation.hasMatch(value)) {
-      return "A senha deve possuir uma letra minuscula.";
-    }
+    // if (!upperCaseValidation.hasMatch(value)) {
+    //   return "A senha deve possuir uma letra maiuscula.";
+    // }
+    // if (!lowerCaseValidation.hasMatch(value)) {
+    //   return "A senha deve possuir uma letra minuscula.";
+    // }
 
     // if (!specialCharValidation.hasMatch(value)) {
     //   return "A senha deve possuir uma caractere especial.";
     // }
 
-    if (!lengthValidation.hasMatch(value)) {
-      return 'Sua senha possui ${value.length} caracteres. \nPorém deve ter entre 8 e 16 caracteres.';
-    }
+    // if (!lengthValidation.hasMatch(value)) {
+    //   return 'Sua senha possui ${value.length} caracteres. \nPorém deve ter entre 8 e 16 caracteres.';
+    // }
 
     return null;
   }

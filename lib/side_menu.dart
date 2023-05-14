@@ -4,25 +4,37 @@ import './login_screen.dart';
 class SideMenu extends StatelessWidget {
   const SideMenu({super.key});
 
+  void _logout(BuildContext context) {
+    Navigator.of(context).popAndPushNamed(LoginScreen.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          const DrawerHeader(
-            child: Text('Drawer Header'),
-            decoration: BoxDecoration(
-              color: Colors.blue,
+        children: [
+          UserAccountsDrawerHeader(
+            accountName: const Text('Oflutter.com'),
+            accountEmail: const Text('example@gmail.com'),
+            currentAccountPicture: CircleAvatar(
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/user.png',
+                  width: 90,
+                  height: 90,
+                ),
+              ),
             ),
           ),
           const ListTile(
-            title: Text('Item 1'),
+            leading: Icon(Icons.person),
+            title: Text('Credenciais'),
           ),
+          const Divider(),
           ListTile(
             title: const Text('Sair'),
-            onTap: () =>
-                Navigator.popAndPushNamed(context, LoginScreen.routeName),
+            leading: const Icon(Icons.exit_to_app),
+            onTap: () => _logout(context),
           ),
         ],
       ),
