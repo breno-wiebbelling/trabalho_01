@@ -9,6 +9,12 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final RegExp upperCaseValidation = RegExp(r'^(?=.*?[A-Z])');
+  final RegExp lowerCaseValidation = RegExp(r'^(?=.*?[a-z])');
+  final RegExp specialCharValidation = RegExp(r'^[\W_]*$');
+  final RegExp numberValidation = RegExp(r'^(?=.*?[0-9])');
+  final RegExp lengthValidation = RegExp(r'^.{8,16}');
+
   LoginScreen({super.key});
 
   Future<void> _saveCredentials() async {
@@ -25,60 +31,69 @@ class LoginScreen extends StatelessWidget {
   }
 
   String? _passwordValidator(String? value) {
-    RegExp upperCaseValidation = RegExp(r'^(?=.*?[A-Z])');
-    if (value!.isNotEmpty) {
-      if (upperCaseValidation.hasMatch(value)) {
-        return null;
-      } else {
-        return "A senha deve possuir uma letra maiúscula.";
-      }
+    if (value!.isEmpty) return "Adicione uma senha!";
+
+    if (!upperCaseValidation.hasMatch(value)) {
+      return "A senha deve possuir uma letra maiuscula.";
+    }
+    if (!lowerCaseValidation.hasMatch(value)) {
+      return "A senha deve possuir uma letra minuscula.";
     }
 
-    return "Preenchar uma senha!";
+    // if (!specialCharValidation.hasMatch(value)) {
+    //   return "A senha deve possuir uma caractere especial.";
+    // }
+
+    if (!lengthValidation.hasMatch(value)) {
+      return 'Sua senha possui ${value.length} caracteres. \nPorém deve ter entre 8 e 16 caracteres.';
+    }
+
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Login',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+      body: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Login',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _usernameController,
-            decoration: const InputDecoration(
-              labelText: 'Username',
-              border: OutlineInputBorder(),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _usernameController,
+              decoration: const InputDecoration(
+                labelText: 'Username',
+                border: OutlineInputBorder(),
+              ),
+              validator: (value) =>
+                  (value!.isEmpty) ? 'Adicione um usuário!' : null,
             ),
-            validator: (value) =>
-                (value!.isEmpty) ? 'Please enter your username' : null,
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: 'Password',
-              border: OutlineInputBorder(),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+              validator: (value) => _passwordValidator(value),
             ),
-            validator: (value) => _passwordValidator(value),
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () => _onSubmit(context),
-            child: const Text('Submit'),
-          ),
-        ],
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => _onSubmit(context),
+              child: const Text('Enviar'),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
