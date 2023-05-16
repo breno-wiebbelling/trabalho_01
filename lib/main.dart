@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trabalho1/change_password.dart';
-import 'package:trabalho1/login_screen.dart';
-import 'package:trabalho1/initial_screen.dart';
+import 'package:trabalho_1/screens/change_password.dart';
+import 'package:trabalho_1/screens/login.dart';
+import 'package:trabalho_1/screens/initial.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         InitialScreen.routeName: (context) => const InitialScreen(),
-        ChangePasswordScreen.routeName: (context) => ChangePasswordScreen()
+        ChangePasswordScreen.routeName: (context) => const ChangePasswordScreen()
       },
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './side_menu.dart';
-import 'services/login_service.dart';
+import 'package:trabalho_1/drawers/side_menu.dart';
+import 'package:trabalho_1/services/login_service.dart';
 
 class InitialScreen extends StatefulWidget {
   static const routeName = "./";

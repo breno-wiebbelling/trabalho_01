@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trabalho1/services/login_service.dart';
+import 'package:trabalho_1/services/login_service.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = './login';
@@ -14,8 +14,7 @@ class LoginScreen extends StatelessWidget {
 
   Future<void> _onSubmit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      await _loginService.saveCredentials(
-          _usernameController.text, _passwordController.text, context);
+      await _loginService.saveCredentials(_usernameController.text, _passwordController.text, context);
     }
   }
 
