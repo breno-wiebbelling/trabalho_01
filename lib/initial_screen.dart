@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import './side_menu.dart';
+import 'services/login_service.dart';
 
 class InitialScreen extends StatefulWidget {
   static const routeName = "./";
@@ -12,33 +12,34 @@ class InitialScreen extends StatefulWidget {
 }
 
 class _InitialScreenState extends State<InitialScreen> {
-  String? username;
-  String? password;
-  SharedPreferences? prefs;
+  String? _username;
+  String? _password;
+
+  final LoginService _loginService = LoginService();
 
   @override
   initState() {
     super.initState();
 
-    _loadCredentials().then((result) => setState(() {}));
+    _getCredentials().then((result) => setState(() {}));
   }
 
-  Future<void> _loadCredentials() async {
-    prefs = await SharedPreferences.getInstance();
-    username = prefs!.getString("username") ?? "";
-    password = prefs!.getString("password") ?? "";
+  Future<void> _getCredentials() async {
+    _username = await _loginService.getUsername();
+    _password = await _loginService.getPassword();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Tela inicial")),
-      drawer: const SideMenu(),
+      drawer: SideMenu(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Username: $username'),
-          Text('Senha:    $password'),
+          Text('Username: $_username'),
+          Text('Senha:    $_password'),
         ],
       ),
     );

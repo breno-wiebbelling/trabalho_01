@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import './login_screen.dart';
+import 'package:trabalho1/services/login_service.dart';
+import 'package:trabalho1/change_password.dart';
 
 class SideMenu extends StatelessWidget {
-  const SideMenu({super.key});
+  SideMenu({super.key});
 
-  void _logout(BuildContext context) {
-    Navigator.of(context).popAndPushNamed(LoginScreen.routeName);
+  final LoginService _loginService = LoginService();
+
+  void _change_pass(BuildContext context) {
+    Navigator.of(context).popAndPushNamed(ChangePasswordScreen.routeName);
   }
 
   @override
@@ -26,15 +29,17 @@ class SideMenu extends StatelessWidget {
               ),
             ),
           ),
-          const ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Credenciais'),
+          const Divider(),
+          ListTile(
+            title: const Text('Credenciais'),
+            leading: const Icon(Icons.person),
+            onTap: () => _change_pass(context),
           ),
           const Divider(),
           ListTile(
             title: const Text('Sair'),
             leading: const Icon(Icons.exit_to_app),
-            onTap: () => _logout(context),
+            onTap: () => _loginService.logout(context),
           ),
         ],
       ),

@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trabalho1/login_screen.dart';
+import 'package:trabalho1/initial_screen.dart';
+
+class LoginService {
+  final RegExp _upperCaseRegex = RegExp(r'^(?=.*?[A-Z])');
+  final RegExp _lowerCaseRegex = RegExp(r'^(?=.*?[a-z])');
+  final RegExp _specialCharRegex =
+      RegExp(r'[\^$*.\[\]{}()?\-"!@#%&/\,><:;_~`+=' "'" ']');
+  final RegExp _numberRegex = RegExp(r'^(?=.*?[0-9])');
+  final RegExp _lengthRegex = RegExp(r'^.{8,16}');
+
+  final String _USERNAME_KEY = "username";
+  final String _PASSWORD_KEY = "password";
+
+  SharedPreferences? _prefs;
+
+  Future<void> _initiatePrefs() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+
+  String? validatePassword(String? password) {
+    if (password!.isEmpty) return "Adicione uma senha!";
+
+    if (!_upperCaseRegex.hasMatch(password)) {
+      return "A senha deve possuir uma letra maiuscula.";
+    }
+    if (!_lowerCaseRegex.hasMatch(password)) {
+      return "A senha deve possuir uma letra minuscula.";
+    }
+    if (!_numberRegex.hasMatch(password)) {
+      return "A senha deve possuir um numero.";
+    }
+    if (!password.contains(_specialCharRegex)) {
+      return "A senha deve possuir um caracter especial.";
+    }
+    if (!_lengthRegex.hasMatch(password)) {
+      return 'Sua senha possui ${password.length} caracteres. \nPorém deve ter entre 8 e 16 caracteres.';
+    }
+
+    return null;
+  }
+
+  Future<void> setPassword(
+      String oldPass, String newPass, BuildContext context) async {
+    await _initiatePrefs();
+
+    if (oldPass == await getPassword()) {
+      _prefs!.setString(_PASSWORD_KEY, newPass);
+      Navigator.pushReplacementNamed(context, InitialScreen.routeName);
+    }
+  }
+
+  Future<void> saveCredentials(
+      String username, String password, BuildContext context) async {
+    await _initiatePrefs();
+
+    await _prefs!.setString(_USERNAME_KEY, username);
+    await _prefs!.setString(_PASSWORD_KEY, password);
+
+    Navigator.pushReplacementNamed(context, InitialScreen.routeName);
+  }
+
+  Future<String?> getUsername() async {
+    await _initiatePrefs();
+    return _prefs!.getString(_USERNAME_KEY);
+  }
+
+  Future<String?> getPassword() async {
+    await _initiatePrefs();
+    return _prefs!.getString(_PASSWORD_KEY);
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await _initiatePrefs();
+    await _prefs!.clear();
+
+    Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+  }
+}

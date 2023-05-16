@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import './initial_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trabalho1/services/login_service.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = './login';
@@ -9,46 +8,15 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final RegExp upperCaseValidation = RegExp(r'^(?=.*?[A-Z])');
-  final RegExp lowerCaseValidation = RegExp(r'^(?=.*?[a-z])');
-  final RegExp specialCharValidation = RegExp(r'^[\W_]*$');
-  final RegExp numberValidation = RegExp(r'^(?=.*?[0-9])');
-  final RegExp lengthValidation = RegExp(r'^.{8,16}');
+  final LoginService _loginService = LoginService();
 
   LoginScreen({super.key});
 
-  Future<void> _saveCredentials() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', _usernameController.text);
-    await prefs.setString('password', _passwordController.text);
-  }
-
-  void _onSubmit(BuildContext context) async {
+  Future<void> _onSubmit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      await _saveCredentials();
-      Navigator.pushReplacementNamed(context, InitialScreen.routeName);
+      await _loginService.saveCredentials(
+          _usernameController.text, _passwordController.text, context);
     }
-  }
-
-  String? _passwordValidator(String? value) {
-    if (value!.isEmpty) return "Adicione uma senha!";
-
-    // if (!upperCaseValidation.hasMatch(value)) {
-    //   return "A senha deve possuir uma letra maiuscula.";
-    // }
-    // if (!lowerCaseValidation.hasMatch(value)) {
-    //   return "A senha deve possuir uma letra minuscula.";
-    // }
-
-    // if (!specialCharValidation.hasMatch(value)) {
-    //   return "A senha deve possuir uma caractere especial.";
-    // }
-
-    // if (!lengthValidation.hasMatch(value)) {
-    //   return 'Sua senha possui ${value.length} caracteres. \nPorém deve ter entre 8 e 16 caracteres.';
-    // }
-
-    return null;
   }
 
   @override
@@ -57,7 +25,8 @@ class LoginScreen extends StatelessWidget {
       body: Form(
         key: _formKey,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
               'Login',
@@ -84,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                 labelText: 'Password',
                 border: OutlineInputBorder(),
               ),
-              validator: (value) => _passwordValidator(value),
+              validator: (value) => _loginService.validatePassword(value),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
