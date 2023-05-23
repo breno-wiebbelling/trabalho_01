@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:trabalho1/screens/initial.dart';
 import 'package:trabalho1/services/login_service.dart';
-import 'package:trabalho1/change_password.dart';
+import 'package:trabalho1/screens/change_password.dart';
 
 class SideMenu extends StatelessWidget {
   SideMenu({super.key});
 
   final LoginService _loginService = LoginService();
 
-  void _change_pass(BuildContext context) {
-    Navigator.of(context).popAndPushNamed(ChangePasswordScreen.routeName);
+  void _changeRoute(BuildContext context, String routeName) {
+    Navigator.of(context).popAndPushNamed(routeName);
   }
 
   @override
@@ -17,12 +18,12 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: const Text('Oflutter.com'),
-            accountEmail: const Text('example@gmail.com'),
+            accountName: const Text('Breno Wiebbelling'),
+            accountEmail: const Text('brenoassis@gmail.com'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.asset(
-                  'assets/images/user.png',
+                  'assets/images/user.jpg',
                   width: 90,
                   height: 90,
                 ),
@@ -31,9 +32,14 @@ class SideMenu extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            title: const Text('Credenciais'),
+            title: const Text('Inicial'),
+            leading: const Icon(Icons.home),
+            onTap: () => _changeRoute(context, InitialScreen.routeName),
+          ),
+          ListTile(
+            title: const Text('Mudar senha'),
             leading: const Icon(Icons.person),
-            onTap: () => _change_pass(context),
+            onTap: () => _changeRoute(context, ChangePasswordScreen.routeName),
           ),
           const Divider(),
           ListTile(
