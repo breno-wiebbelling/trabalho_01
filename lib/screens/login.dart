@@ -14,8 +14,7 @@ class LoginScreen extends StatelessWidget {
 
   Future<void> _onSubmit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      await _loginService.saveCredentials(
-          _usernameController.text, _passwordController.text, context);
+      await _loginService.saveCredentials(_usernameController.text, _passwordController.text, context);
     }
   }
 
@@ -44,8 +43,7 @@ class LoginScreen extends StatelessWidget {
                     labelText: 'Username',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) =>
-                      (value!.isEmpty) ? 'Adicione um usuário!' : null,
+                  validator: (value) => (value!.isEmpty) ? 'Adicione um usuário!' : null,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
@@ -55,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                     labelText: 'Password',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) => _loginService.validatePassword(value),
+                  validator: (value) =>  (value!.isEmpty) ? 'Adicione uma senha!' : null,
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(

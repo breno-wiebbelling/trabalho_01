@@ -24,8 +24,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   void _onSubmit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      await _loginService.setPassword(
-          _originalPass.text, _newPass.text, context);
+      await _loginService.setPassword(_originalPass.text, _newPass.text, context);
     }
   }
 
@@ -34,19 +33,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     super.initState();
 
     _loginService
-        .getPassword()
-        .then((result) => _prevPass = result)
-        .whenComplete(() => setState(() {}));
+      .getPassword()
+      .then((result) => _prevPass = result)
+      .whenComplete(() => setState(() {}));
   }
 
   String? _isPasswordEqualsAsBefore(BuildContext context, String? newPass) {
+    print(newPass);
+    print(_prevPass);
     return (newPass != _prevPass) ? "Senha incorreta" : null;
   }
 
   String? _newPassValidator() {
     return ((_newPass.text != _newPassConf.text)
-        ? "As senhas novas devem ser iguais"
-        : null);
+      ? "As senhas novas devem ser iguais"
+      : null);
   }
 
   @override

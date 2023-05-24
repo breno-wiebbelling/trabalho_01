@@ -20,10 +20,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: LoginScreen.routeName,
       routes: {
-        LoginScreen.routeName: (context) => LoginScreen(),
-        InitialScreen.routeName: (context) => const InitialScreen(),
-        ChangePasswordScreen.routeName: (context) =>
-            const ChangePasswordScreen(),
+        LoginScreen.routeName:          (context) => LoginScreen(),
+        InitialScreen.routeName:        (context) => const InitialScreen(),
+        ChangePasswordScreen.routeName: (context) => const ChangePasswordScreen(),
       },
     );
   }
