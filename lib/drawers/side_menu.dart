@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:trabalho1/screens/initial.dart';
-import 'package:trabalho1/services/login_service.dart';
+// import 'package:trabalho1/services/login_service.dart';
 import 'package:trabalho1/screens/change_password.dart';
 
 class SideMenu extends StatelessWidget {
   SideMenu({super.key});
 
-  final LoginService _loginService = LoginService();
+  // final LoginService _loginService = LoginService();
 
   void _changeRoute(BuildContext context, String routeName) {
     Navigator.of(context).popAndPushNamed(routeName);
@@ -45,7 +45,7 @@ class SideMenu extends StatelessWidget {
           ListTile(
             title: const Text('Sair'),
             leading: const Icon(Icons.exit_to_app),
-            onTap: () => _loginService.logout(context),
+            // onTap: () => _loginService.logout(context),
           ),
         ],
       ),

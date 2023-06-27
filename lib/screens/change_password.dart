@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trabalho1/drawers/side_menu.dart';
-import 'package:trabalho1/services/login_service.dart';
+// import 'package:trabalho1/services/login_service.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   static const routeName = './cp';
@@ -20,11 +20,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   String? _prevPass;
 
-  final LoginService _loginService = LoginService();
+  // final LoginService _loginService = LoginService();
 
   void _onSubmit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      await _loginService.setPassword(_originalPass.text, _newPass.text, context);
+      //await _loginService.setPassword(_originalPass.text, _newPass.text, context);
     }
   }
 
@@ -32,15 +32,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   initState() {
     super.initState();
 
-    _loginService
-      .getPassword()
-      .then((result) => _prevPass = result)
-      .whenComplete(() => setState(() {}));
+    // _loginService
+    //   .getPassword()
+    //   .then((result) => _prevPass = result)
+    //   .whenComplete(() => setState(() {}));
   }
 
   String? _isPasswordEqualsAsBefore(BuildContext context, String? newPass) {
-    print(newPass);
-    print(_prevPass);
     return (newPass != _prevPass) ? "Senha incorreta" : null;
   }
 
@@ -81,7 +79,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     labelText: 'Nova senha',
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) => _loginService.validatePassword(value),
+                  // validator: (value) => _loginService.validatePassword(value),
                 ),
                 const SizedBox(height: 16),
                 TextFormField(

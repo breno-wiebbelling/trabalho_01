@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trabalho1/drawers/side_menu.dart';
-import 'package:trabalho1/services/login_service.dart';
+// import 'package:trabalho1/services/login_service.dart';
 
 class InitialScreen extends StatefulWidget {
   static const routeName = "./";
@@ -15,7 +15,7 @@ class _InitialScreenState extends State<InitialScreen> {
   String? _username;
   String? _password;
 
-  final LoginService _loginService = LoginService();
+  // final LoginService _loginService = LoginService();
 
   @override
   initState() {
@@ -25,8 +25,8 @@ class _InitialScreenState extends State<InitialScreen> {
   }
 
   Future<void> _getCredentials() async {
-    _username = await _loginService.getUsername();
-    _password = await _loginService.getPassword();
+    _username = "";//await _loginService.getUsername();
+    _password = "";//await _loginService.getPassword();
   }
 
   @override
@@ -42,10 +42,7 @@ class _InitialScreenState extends State<InitialScreen> {
           children: [
             Text(
               'Username: \t$_username \nSenha: \t$_password',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xff181818),
-              ),
+              style: const TextStyle( fontWeight: FontWeight.bold, color: Color(0xff181818),),
             ),
           ],
         ),

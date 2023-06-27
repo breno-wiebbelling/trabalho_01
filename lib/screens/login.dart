@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/login_service.dart';
+import '../user/user_service.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = './login';
@@ -8,13 +8,24 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final LoginService _loginService = LoginService();
+  final UserService _userService = UserService();
 
   LoginScreen({super.key});
 
   Future<void> _onSubmit(BuildContext context) async {
-    if (_formKey.currentState!.validate()) {
-      await _loginService.saveCredentials(_usernameController.text, _passwordController.text, context);
+
+    
+
+    if( _formKey.currentState!.validate() ){
+        await _userService
+        .login(_usernameController.text, _passwordController.text)
+        
+        .catchError((e){
+          ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.toString())));
+          
+          return false;
+        });
     }
   }
 
@@ -31,35 +42,27 @@ class LoginScreen extends StatelessWidget {
               children: [
                 const Text(
                   'Login',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle( fontSize: 24, fontWeight: FontWeight.bold, ),
                 ),
+                
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _usernameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Username',
-                    border: OutlineInputBorder(),
-                  ),
+                  decoration: const InputDecoration( labelText: 'Username', border: OutlineInputBorder() ),
                   validator: (value) => (value!.isEmpty) ? 'Adicione um usuário!' : null,
                 ),
+                
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) =>  (value!.isEmpty) ? 'Adicione uma senha!' : null,
+                  decoration: const InputDecoration( labelText: 'Password', border: OutlineInputBorder() ),
+                  validator: (value) => (value!.isEmpty) ? 'Adicione uma senha!' : null,
                 ),
+                
                 const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => _onSubmit(context),
-                  child: const Text('Enviar'),
-                ),
+                ElevatedButton( onPressed: () => _onSubmit(context), child: const Text('Enviar'), ),
+                
               ],
             )),
       ),
