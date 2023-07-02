@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.black,
       ),
       body: Container(
-        height: 10.0,
+        height: 50.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           controller: scrollController,
