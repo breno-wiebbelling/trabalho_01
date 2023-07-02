@@ -26,7 +26,26 @@ class _HomeScreenState extends State<HomeScreen> {
     'Dezembro',
   ];
 
-  int selectedCategoryIndex = 1;
+  int selectedIndex = 0;
+  ScrollController? scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController(initialScrollOffset: 0.0);
+  }
+
+  void scrollToIndex(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+    scrollController?.animateTo(
+      index * 120.0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,22 +66,26 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.black,
       ),
       body: Container(
-        height: 200.0,
+        height: 10.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
+          controller: scrollController,
           itemCount: meses.length,
           itemBuilder: (BuildContext context, int index) {
-            return Container(
-              width: 120.0,
-              margin: EdgeInsets.all(8.0),
-              color: Colors.blue,
-              child: Center(
-                child: Text(
-                  meses[index],
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
+            return GestureDetector(
+              onTap: () => scrollToIndex(index),
+              child: Container(
+                width: 120.0,
+                margin: const EdgeInsets.all(8.0),
+                color: index == selectedIndex ? Colors.blue : Colors.grey,
+                child: Center(
+                  child: Text(
+                    meses[index],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
