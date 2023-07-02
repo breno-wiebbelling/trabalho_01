@@ -14,10 +14,13 @@ class BaseClient{
     ); 
   }
   
-  Future<Object> post(String uri, Map body) async {
+  Future<Object> post(String uri, String body) async {
     var response = await http.post( 
       Uri.parse(_baseUrl+uri), 
-      body: body,
+      body: jsonEncode(<String, String>{
+        'password':'senha',
+        'email':'usuario@gmail.com',
+      }),
       headers: { 'authorization':await _localStorage.getObject('token') } 
     );
 
